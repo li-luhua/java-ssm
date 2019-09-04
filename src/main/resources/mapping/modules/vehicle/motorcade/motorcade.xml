@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhg.javakc.modules.vehicle.motorcadeManage.dao.MotorcadeDao">
+    <sql id="columns">
+        id ,mot_name,mot_company,mot_fax,mot_phone,mot_site,mot_remark
+    </sql>
+    <!--别名-->
+    <resultMap id="motorcadeMap" type="com.zhg.javakc.modules.vehicle.motorcadeManage.entity.MotorcadeEntity">
+        <id property="id" column="id" />
+        <result property="mot_name" column="mot_name" />
+        <result property="mot_company" column="mot_company" />
+        <result property="mot_fax" column="mot_fax" />
+        <result property="mot_phone" column="mot_phone" />
+        <result property="mot_site" column="mot_site" />
+        <result property="mot_remark" column="mot_remark" />
+<!--        一对多的映射-->
+        <collection property="staffList" ofType="com.zhg.javakc.modules.vehicle.person.entity.StaffEntity">
+            <id property="id" column="id"/>
+            <result property="position" column="position" />
+            <result property="name" column="name" />
+            <result property="site" column="site" />
+            <result property="phone" column="phone" />
+        </collection>
+    </resultMap>
+<!--    查询全部-->
+    <select id="findList" resultMap="motorcadeMap">
+        select <include refid="columns" /> from Motorcade where 1=1
+    </select>
+
+    <!--添加-->
+    <insert id="insert">
+        insert into motorcade(<include refid="columns"/>)
+			values(#{id}, #{mot_name}, #{mot_company}, #{mot_fax},#{mot_phone},#{mot_site},#{mot_remark})
+    </insert>
+
+    <!--加载-->
+    <select id="get" resultType="com.zhg.javakc.modules.vehicle.motorcadeManage.entity.MotorcadeEntity">
+        select <include refid="columns"/> from motorcade where id=#{id}
+    </select>
+
+    <!-- 修改-->
+    <update id="update">
+		UPDATE motorcade SET
+		mot_name = #{mot_name}, mot_company = #{mot_company}, mot_fax = #{mot_fax},mot_phone = #{mot_phone},mot_site = #{mot_site},mot_remark = #{mot_remark}
+			 WHERE id= #{id}
+	</update>
+
+    <!-- 循环迭代删除-->
+    <delete id="delete">
+        delete from motorcade where id in
+        <foreach collection="array" open="(" close=")" item="id" separator=",">
+           #{id}
+        </foreach>
+    </delete>
+
+    <!--    查询一个车队全部人员-->
+    <select id="queryPerson" resultMap="motorcadeMap">
+        select s.id,s.position ,s.name ,s.site ,s.phone ,s.mot_id,m.id,m.mot_name
+        from STAFF s,MOTORCADE m
+        where s.mot_id=m.id and m.id=#{id}
+    </select>
+</mapper>

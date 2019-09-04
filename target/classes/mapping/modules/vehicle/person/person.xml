@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhg.javakc.modules.vehicle.person.dao.PersonDao">
+<!--属性名的叠用-->
+    <sql id="columns">
+        id,position ,name ,site ,phone ,mot_id
+    </sql>
+
+<!--    新增-->
+    <insert id="insert">
+        insert into STAFF(<include refid="columns"/>)
+        values(#{id}, #{position}, #{name}, #{site},#{phone},#{mot_id})
+    </insert>
+
+    <!--加载-->
+    <select id="get" resultType="com.zhg.javakc.modules.vehicle.person.entity.StaffEntity">
+        select <include refid="columns"/> from staff where id=#{id}
+    </select>
+
+    <!-- 修改-->
+    <update id="update">
+        UPDATE STAFF SET
+          position = #{position}, name = #{name}, site = #{site},phone = #{phone}
+        WHERE id= #{id}
+    </update>
+</mapper>

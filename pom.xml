@@ -36,9 +36,16 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+<!--get、set方法-->
+    <lombox.version>1.18.8</lombox.version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombox.version}</version>
+    </dependency>
     <!-- spring核心包 -->
     <dependency>
       <groupId>org.springframework</groupId>
